@@ -272,6 +272,9 @@ func (vp *nsxtVPCNetworkProvider) ConfigureVirtualMachine(_ context.Context, clu
 
 	// Set the VM secondary interfaces
 	setVMSecondaryInterfaces(machine, vm)
+
+	// Set the VM VLANs
+	setVMVLANs(machine, vm)
 	return nil
 }
 
@@ -308,5 +311,26 @@ func setVMSecondaryInterfaces(machine *vmwarev1.VSphereMachine, vm *vmoprvhub.Vi
 		}
 		setRoutes(&vmInterface, secondaryInterface.Routes)
 		vm.Spec.Network.Interfaces = append(vm.Spec.Network.Interfaces, vmInterface)
+	}
+}
+
+func setVMVLANs(machine *vmwarev1.VSphereMachine, vm *vmoprvhub.VirtualMachine) {
+	if len(machine.Spec.Network.VLANs) == 0 {
+		return
+	}
+	if vm.Spec.Network.VLANs == nil {
+		vm.Spec.Network.VLANs = make(map[string]vmoprvhub.VirtualMachineNetworkVLANSpec)
+	}
+	for i, vlan := range machine.Spec.Network.VLANs {
+		// Generate a unique name for the VLAN interface based on the VLAN ID
+		vlanName := fmt.Sprintf("vlan%d", vlan.ID)
+		if i > 0 {
+			// If there are multiple VLANs with the same ID, append index
+			vlanName = fmt.Sprintf("vlan%d_%d", vlan.ID, i)
+		}
+		vm.Spec.Network.VLANs[vlanName] = vmoprvhub.VirtualMachineNetworkVLANSpec{
+			ID:   vlan.ID,
+			Link: vlan.Link,
+		}
 	}
 }

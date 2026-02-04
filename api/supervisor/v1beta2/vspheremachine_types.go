@@ -123,6 +123,18 @@ type VSphereMachineNetworkSpec struct {
 	//
 	// +optional
 	Interfaces InterfacesSpec `json:"interfaces,omitempty,omitzero"`
+
+	// vlans is the list of VLAN interfaces to configure on this VSphereMachine.
+	// Each VLAN must reference a parent interface from the Interfaces list.
+	//
+	// Please note this feature is available only with the following bootstrap
+	// providers: CloudInit.
+	//
+	// +kubebuilder:validation:MinItems=1
+	// +kubebuilder:validation:MaxItems=100
+	// +listType=atomic
+	// +optional
+	VLANs []VLANSpec `json:"vlans,omitempty"`
 }
 
 // IsDefined returns true if the VSphereMachineNetworkSpec is defined.
@@ -258,6 +270,24 @@ type RouteSpec struct {
 	// +kubebuilder:validation:MaxLength=15
 	// +required
 	Via string `json:"via,omitempty"`
+}
+
+// VLANSpec describes a VLAN interface configuration.
+type VLANSpec struct {
+	// id is the VLAN ID, a number between 0 and 4094.
+	//
+	// +kubebuilder:validation:Minimum=0
+	// +kubebuilder:validation:Maximum=4094
+	// +required
+	ID int64 `json:"id"`
+
+	// link is the name of the parent interface on which this VLAN is created.
+	// This must reference an interface name from the Interfaces list.
+	//
+	// +kubebuilder:validation:MinLength=1
+	// +kubebuilder:validation:MaxLength=15
+	// +required
+	Link string `json:"link"`
 }
 
 // VirtualMachineNamingSpec defines the naming strategy for the VirtualMachines.

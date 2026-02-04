@@ -449,3 +449,12 @@ func Convert_v1beta2_VSphereMachineTemplateStatus_To_v1beta1_VSphereMachineTempl
 	// Note: The NodeInfo field from v1beta2 is intentionally dropped as it doesn't exist in v1beta1
 	return autoConvert_v1beta2_VSphereMachineTemplateStatus_To_v1beta1_VSphereMachineTemplateStatus(in, out, s)
 }
+
+// Convert_v1beta2_VSphereMachineNetworkSpec_To_v1beta1_VSphereMachineNetworkSpec converts v1beta2 VSphereMachineNetworkSpec to v1beta1.
+// This is a manual conversion function that handles the VLANs field which doesn't exist in v1beta1.
+// The VLANs field is intentionally dropped during this conversion as v1beta1 doesn't support it.
+func Convert_v1beta2_VSphereMachineNetworkSpec_To_v1beta1_VSphereMachineNetworkSpec(in *vmwarev1.VSphereMachineNetworkSpec, out *VSphereMachineNetworkSpec, s apimachineryconversion.Scope) error {
+	// Call the auto-generated conversion function which handles the Interfaces field
+	// Note: The VLANs field from v1beta2 is intentionally dropped as it doesn't exist in v1beta1
+	return autoConvert_v1beta2_VSphereMachineNetworkSpec_To_v1beta1_VSphereMachineNetworkSpec(in, out, s)
+}

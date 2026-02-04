@@ -703,6 +703,38 @@ spec:
                                 type: array
                                 x-kubernetes-list-type: atomic
                             type: object
+                          vlans:
+                            description: |-
+                              vlans is the list of VLAN interfaces to configure on this VSphereMachine.
+                              Each VLAN must reference a parent interface from the Interfaces list.
+
+                              Please note this feature is available only with the following bootstrap
+                              providers: CloudInit.
+                            items:
+                              description: VLANSpec describes a VLAN interface configuration.
+                              properties:
+                                id:
+                                  description: id is the VLAN ID, a number between
+                                    0 and 4094.
+                                  format: int64
+                                  maximum: 4094
+                                  minimum: 0
+                                  type: integer
+                                link:
+                                  description: |-
+                                    link is the name of the parent interface on which this VLAN is created.
+                                    This must reference an interface name from the Interfaces list.
+                                  maxLength: 15
+                                  minLength: 1
+                                  type: string
+                              required:
+                              - id
+                              - link
+                              type: object
+                            maxItems: 100
+                            minItems: 1
+                            type: array
+                            x-kubernetes-list-type: atomic
                         type: object
                       powerOffMode:
                         description: |-
