@@ -107,6 +107,35 @@ type VSphereMachineNetworkSpec struct {
 	//
 	// +optional
 	Interfaces InterfacesSpec `json:"interfaces,omitempty,omitzero"`
+
+	// vlans is a map of VLAN interfaces to be configured on top of the physical
+	// network interfaces. The key is the VLAN interface name.
+	//
+	// VLAN interfaces are virtual network interfaces that tag traffic with a
+	// VLAN ID. Each VLAN must reference a parent interface from the Interfaces
+	// list via the Link field.
+	//
+	// Please note this feature is available only with the following bootstrap
+	// providers: CloudInit.
+	//
+	// +optional
+	VLANs map[string]VSphereMachineNetworkVLANSpec `json:"vlans,omitempty"`
+}
+
+// VSphereMachineNetworkVLANSpec describes a VLAN interface configuration.
+type VSphereMachineNetworkVLANSpec struct {
+	// id is the VLAN ID, a number between 0 and 4094.
+	//
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Minimum=0
+	// +kubebuilder:validation:Maximum=4094
+	ID int64 `json:"id"`
+
+	// link is the name of the parent interface on which this VLAN is created.
+	// This must reference an interface name from the Interfaces list.
+	//
+	// +kubebuilder:validation:Required
+	Link string `json:"link"`
 }
 
 // IsDefined returns true if the VSphereMachineNetworkSpec is defined.

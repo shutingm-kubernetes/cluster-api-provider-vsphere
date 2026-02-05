@@ -258,6 +258,9 @@ func (vp *nsxtVPCNetworkProvider) ConfigureVirtualMachine(_ context.Context, clu
 
 	// Set the VM secondary interfaces
 	setVMSecondaryInterfaces(machine, vm)
+
+	// Set the VM VLANs
+	setVMVLANs(machine, vm)
 	return nil
 }
 
@@ -294,5 +297,21 @@ func setVMSecondaryInterfaces(machine *vmwarev1.VSphereMachine, vm *vmoprv1.Virt
 		}
 		setRoutes(&vmInterface, secondaryInterface.Routes)
 		vm.Spec.Network.Interfaces = append(vm.Spec.Network.Interfaces, vmInterface)
+	}
+}
+
+// setVMVLANs configures VLANs on the VirtualMachine based on the VSphereMachine spec.
+func setVMVLANs(machine *vmwarev1.VSphereMachine, vm *vmoprv1.VirtualMachine) {
+	if len(machine.Spec.Network.VLANs) == 0 {
+		return
+	}
+	if vm.Spec.Network.VLANs == nil {
+		vm.Spec.Network.VLANs = make(map[string]vmoprv1.VirtualMachineNetworkVLANSpec)
+	}
+	for vlanName, vlanSpec := range machine.Spec.Network.VLANs {
+		vm.Spec.Network.VLANs[vlanName] = vmoprv1.VirtualMachineNetworkVLANSpec{
+			ID:   vlanSpec.ID,
+			Link: vlanSpec.Link,
+		}
 	}
 }

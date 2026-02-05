@@ -7,7 +7,8 @@ replace sigs.k8s.io/cluster-api => sigs.k8s.io/cluster-api v1.12.1
 replace github.com/vmware-tanzu/vm-operator/pkg/constants/testlabels => github.com/vmware-tanzu/vm-operator/pkg/constants/testlabels v1.9.1-0.20251029150609-93918c59a719
 
 // The version of vm-operator should be kept in sync with the manifests at: config/deployments/integration-tests
-replace github.com/vmware-tanzu/vm-operator/api => github.com/vmware-tanzu/vm-operator/api v1.9.1-0.20251029150609-93918c59a719
+// Using fork with vlans support: https://github.com/shutingm-kubernetes/vm-operator/tree/topic/shutingm/vlans-poc
+replace github.com/vmware-tanzu/vm-operator/api => github.com/shutingm-kubernetes/vm-operator/api v0.0.0-20260205084346-6040790d77c7
 
 require (
 	github.com/vmware-tanzu/net-operator-api v0.0.0-20240326163340-1f32d6bf7f9d
