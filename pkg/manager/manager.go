@@ -24,7 +24,7 @@ import (
 	netopv1 "github.com/vmware-tanzu/net-operator-api/api/v1alpha1"
 	nsxvpcv1 "github.com/vmware-tanzu/nsx-operator/pkg/apis/vpc/v1alpha1"
 	vmoprv1alpha2 "github.com/vmware-tanzu/vm-operator/api/v1alpha2"
-	vmoprv1alpha5 "github.com/vmware-tanzu/vm-operator/api/v1alpha5"
+	vmoprv1alpha6 "github.com/vmware-tanzu/vm-operator/api/v1alpha6"
 	ncpv1 "github.com/vmware-tanzu/vm-operator/external/ncp/api/v1alpha1"
 	"gopkg.in/fsnotify.v1"
 	apiextensionsv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
@@ -70,7 +70,7 @@ func New(ctx context.Context, opts Options) (Manager, error) {
 	utilruntime.Must(vmwarev1.AddToScheme(opts.Scheme))
 	utilruntime.Must(vmoprvhub.AddToScheme(opts.Scheme))
 	utilruntime.Must(vmoprv1alpha2.AddToScheme(opts.Scheme))
-	utilruntime.Must(vmoprv1alpha5.AddToScheme(opts.Scheme))
+	utilruntime.Must(vmoprv1alpha6.AddToScheme(opts.Scheme))
 	utilruntime.Must(ncpv1.AddToScheme(opts.Scheme))
 	utilruntime.Must(netopv1.AddToScheme(opts.Scheme))
 	utilruntime.Must(nsxvpcv1.AddToScheme(opts.Scheme))

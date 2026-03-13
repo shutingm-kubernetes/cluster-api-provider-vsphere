@@ -14,8 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// Package v1alpha5 has test hub types.
-package v1alpha5
+// Package v1alpha6 has test hub types.
+package v1alpha6
 
 import (
 	"context"
@@ -54,14 +54,14 @@ func (a AList) DeepCopyObject() runtime.Object {
 	panic("implement me")
 }
 
-// ConvertAFromHubToV1alpha5 converts A from hub to v1alpha5.
-func ConvertAFromHubToV1alpha5(_ context.Context, src *hub.A, dst *A) error {
+// ConvertAFromHubToV1alpha6 converts A from hub to v1alpha6.
+func ConvertAFromHubToV1alpha6(_ context.Context, src *hub.A, dst *A) error {
 	dst.Foo = src.Foo
 	return nil
 }
 
-// ConvertAFromV1alpha5ToHub converts A from v1alpha5 to hub.
-func ConvertAFromV1alpha5ToHub(_ context.Context, src *A, dst *hub.A) error {
+// ConvertAFromV1alpha6ToHub converts A from v1alpha6 to hub.
+func ConvertAFromV1alpha6ToHub(_ context.Context, src *A, dst *hub.A) error {
 	dst.Foo = src.Foo
 	return nil
 }

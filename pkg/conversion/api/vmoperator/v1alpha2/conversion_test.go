@@ -60,6 +60,10 @@ func TestFuzzyConversion(t *testing.T) {
 		Converter: converter,
 		Hub:       &vmoprvhub.VirtualMachineGroup{},
 		Spoke:     &vmoprv1alpha2.VirtualMachineGroup{},
+		CheckTypes: conversiontest.RoundTripCheckTypesInput{
+			// TopLevelDirectoryCreateSupported exists in spoke but not in hub.
+			Skip: true,
+		},
 	}))
 	t.Run("for VirtualMachineImage", conversiontest.RoundTripTest(conversiontest.RoundTripTestInput{
 		Converter: converter,
@@ -86,6 +90,7 @@ func TestFuzzyConversion(t *testing.T) {
 func virtualMachineFuncs(_ runtimeserializer.CodecFactory) []interface{} {
 	return []interface{}{
 		hubPersistentVolumeClaimVolumeSource,
+		hubVirtualMachineNetworkInterfaceSpec,
 	}
 }
 
@@ -99,4 +104,9 @@ func hubPersistentVolumeClaimVolumeSource(in *vmoprvhub.PersistentVolumeClaimVol
 	in.SharingMode = ""
 	in.UnitNumber = nil
 	in.UnmanagedVolumeClaim = nil
+}
+
+func hubVirtualMachineNetworkInterfaceSpec(in *vmoprvhub.VirtualMachineNetworkInterfaceSpec, c randfill.Continue) {
+	c.FillNoCustom(in)
+	in.VLANs = nil
 }

@@ -14,18 +14,18 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package v1alpha5
+package v1alpha6
 
 import (
 	"context"
 
-	vmoprv1alpha5 "github.com/vmware-tanzu/vm-operator/api/v1alpha5"
+	vmoprv1alpha6 "github.com/vmware-tanzu/vm-operator/api/v1alpha6"
 
 	"sigs.k8s.io/cluster-api-provider-vsphere/pkg/conversion"
 	vmoprvhub "sigs.k8s.io/cluster-api-provider-vsphere/pkg/conversion/api/vmoperator/hub"
 )
 
-func convert_v1alpha5_VirtualMachineSetResourcePolicy_To_hub_VirtualMachineSetResourcePolicy(_ context.Context, src *vmoprv1alpha5.VirtualMachineSetResourcePolicy, dst *vmoprvhub.VirtualMachineSetResourcePolicy) error {
+func convert_v1alpha6_VirtualMachineSetResourcePolicy_To_hub_VirtualMachineSetResourcePolicy(_ context.Context, src *vmoprv1alpha6.VirtualMachineSetResourcePolicy, dst *vmoprvhub.VirtualMachineSetResourcePolicy) error {
 	dst.ObjectMeta = src.ObjectMeta
 
 	dst.Spec.ClusterModuleGroups = src.Spec.ClusterModuleGroups
@@ -37,12 +37,12 @@ func convert_v1alpha5_VirtualMachineSetResourcePolicy_To_hub_VirtualMachineSetRe
 	return nil
 }
 
-func convert_hub_VirtualMachineSetResourcePolicy_To_v1alpha5_VirtualMachineSetResourcePolicy(_ context.Context, src *vmoprvhub.VirtualMachineSetResourcePolicy, dst *vmoprv1alpha5.VirtualMachineSetResourcePolicy) error {
+func convert_hub_VirtualMachineSetResourcePolicy_To_v1alpha6_VirtualMachineSetResourcePolicy(_ context.Context, src *vmoprvhub.VirtualMachineSetResourcePolicy, dst *vmoprv1alpha6.VirtualMachineSetResourcePolicy) error {
 	dst.ObjectMeta = src.ObjectMeta
 
 	dst.Spec.ClusterModuleGroups = src.Spec.ClusterModuleGroups
 	dst.Spec.Folder = src.Spec.Folder
-	dst.Spec.ResourcePool = vmoprv1alpha5.ResourcePoolSpec{
+	dst.Spec.ResourcePool = vmoprv1alpha6.ResourcePoolSpec{
 		Name: src.Spec.ResourcePool.Name,
 	}
 
@@ -51,6 +51,6 @@ func convert_hub_VirtualMachineSetResourcePolicy_To_v1alpha5_VirtualMachineSetRe
 
 func init() {
 	converterBuilder.AddConversion(
-		conversion.NewAddConversionBuilder(convert_hub_VirtualMachineSetResourcePolicy_To_v1alpha5_VirtualMachineSetResourcePolicy, convert_v1alpha5_VirtualMachineSetResourcePolicy_To_hub_VirtualMachineSetResourcePolicy),
+		conversion.NewAddConversionBuilder(convert_hub_VirtualMachineSetResourcePolicy_To_v1alpha6_VirtualMachineSetResourcePolicy, convert_v1alpha6_VirtualMachineSetResourcePolicy_To_hub_VirtualMachineSetResourcePolicy),
 	)
 }

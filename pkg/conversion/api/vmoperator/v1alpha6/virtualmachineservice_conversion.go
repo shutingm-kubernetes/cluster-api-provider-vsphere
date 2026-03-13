@@ -14,18 +14,18 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package v1alpha5
+package v1alpha6
 
 import (
 	"context"
 
-	vmoprv1alpha5 "github.com/vmware-tanzu/vm-operator/api/v1alpha5"
+	vmoprv1alpha6 "github.com/vmware-tanzu/vm-operator/api/v1alpha6"
 
 	"sigs.k8s.io/cluster-api-provider-vsphere/pkg/conversion"
 	vmoprvhub "sigs.k8s.io/cluster-api-provider-vsphere/pkg/conversion/api/vmoperator/hub"
 )
 
-func convert_v1alpha5_VirtualMachineService_To_hub_VirtualMachineService(_ context.Context, src *vmoprv1alpha5.VirtualMachineService, dst *vmoprvhub.VirtualMachineService) error {
+func convert_v1alpha6_VirtualMachineService_To_hub_VirtualMachineService(_ context.Context, src *vmoprv1alpha6.VirtualMachineService, dst *vmoprvhub.VirtualMachineService) error {
 	dst.ObjectMeta = src.ObjectMeta
 
 	if src.Spec.Ports != nil {
@@ -55,13 +55,13 @@ func convert_v1alpha5_VirtualMachineService_To_hub_VirtualMachineService(_ conte
 	return nil
 }
 
-func convert_hub_VirtualMachineService_To_v1alpha5_VirtualMachineService(_ context.Context, src *vmoprvhub.VirtualMachineService, dst *vmoprv1alpha5.VirtualMachineService) error {
+func convert_hub_VirtualMachineService_To_v1alpha6_VirtualMachineService(_ context.Context, src *vmoprvhub.VirtualMachineService, dst *vmoprv1alpha6.VirtualMachineService) error {
 	dst.ObjectMeta = src.ObjectMeta
 
 	if src.Spec.Ports != nil {
-		dst.Spec.Ports = []vmoprv1alpha5.VirtualMachineServicePort{}
+		dst.Spec.Ports = []vmoprv1alpha6.VirtualMachineServicePort{}
 		for _, port := range src.Spec.Ports {
-			dst.Spec.Ports = append(dst.Spec.Ports, vmoprv1alpha5.VirtualMachineServicePort{
+			dst.Spec.Ports = append(dst.Spec.Ports, vmoprv1alpha6.VirtualMachineServicePort{
 				Name:       port.Name,
 				Protocol:   port.Protocol,
 				Port:       port.Port,
@@ -70,12 +70,12 @@ func convert_hub_VirtualMachineService_To_v1alpha5_VirtualMachineService(_ conte
 		}
 	}
 	dst.Spec.Selector = src.Spec.Selector
-	dst.Spec.Type = vmoprv1alpha5.VirtualMachineServiceType(src.Spec.Type)
+	dst.Spec.Type = vmoprv1alpha6.VirtualMachineServiceType(src.Spec.Type)
 
 	if src.Status.LoadBalancer.Ingress != nil {
-		dst.Status.LoadBalancer.Ingress = []vmoprv1alpha5.LoadBalancerIngress{}
+		dst.Status.LoadBalancer.Ingress = []vmoprv1alpha6.LoadBalancerIngress{}
 		for _, ingress := range src.Status.LoadBalancer.Ingress {
-			dst.Status.LoadBalancer.Ingress = append(dst.Status.LoadBalancer.Ingress, vmoprv1alpha5.LoadBalancerIngress{
+			dst.Status.LoadBalancer.Ingress = append(dst.Status.LoadBalancer.Ingress, vmoprv1alpha6.LoadBalancerIngress{
 				IP:       ingress.IP,
 				Hostname: ingress.Hostname,
 			})
@@ -87,6 +87,6 @@ func convert_hub_VirtualMachineService_To_v1alpha5_VirtualMachineService(_ conte
 
 func init() {
 	converterBuilder.AddConversion(
-		conversion.NewAddConversionBuilder(convert_hub_VirtualMachineService_To_v1alpha5_VirtualMachineService, convert_v1alpha5_VirtualMachineService_To_hub_VirtualMachineService),
+		conversion.NewAddConversionBuilder(convert_hub_VirtualMachineService_To_v1alpha6_VirtualMachineService, convert_v1alpha6_VirtualMachineService_To_hub_VirtualMachineService),
 	)
 }

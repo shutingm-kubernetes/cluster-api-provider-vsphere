@@ -14,18 +14,18 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package v1alpha5
+package v1alpha6
 
 import (
 	"context"
 
-	vmoprv1alpha5 "github.com/vmware-tanzu/vm-operator/api/v1alpha5"
+	vmoprv1alpha6 "github.com/vmware-tanzu/vm-operator/api/v1alpha6"
 
 	"sigs.k8s.io/cluster-api-provider-vsphere/pkg/conversion"
 	vmoprvhub "sigs.k8s.io/cluster-api-provider-vsphere/pkg/conversion/api/vmoperator/hub"
 )
 
-func convert_v1alpha5_VirtualMachineClass_To_hub_VirtualMachineClass(_ context.Context, src *vmoprv1alpha5.VirtualMachineClass, dst *vmoprvhub.VirtualMachineClass) error {
+func convert_v1alpha6_VirtualMachineClass_To_hub_VirtualMachineClass(_ context.Context, src *vmoprv1alpha6.VirtualMachineClass, dst *vmoprvhub.VirtualMachineClass) error {
 	dst.ObjectMeta = src.ObjectMeta
 
 	dst.Spec.Hardware = vmoprvhub.VirtualMachineClassHardware{
@@ -36,10 +36,10 @@ func convert_v1alpha5_VirtualMachineClass_To_hub_VirtualMachineClass(_ context.C
 	return nil
 }
 
-func convert_hub_VirtualMachineClass_To_v1alpha5_VirtualMachineClass(_ context.Context, src *vmoprvhub.VirtualMachineClass, dst *vmoprv1alpha5.VirtualMachineClass) error {
+func convert_hub_VirtualMachineClass_To_v1alpha6_VirtualMachineClass(_ context.Context, src *vmoprvhub.VirtualMachineClass, dst *vmoprv1alpha6.VirtualMachineClass) error {
 	dst.ObjectMeta = src.ObjectMeta
 
-	dst.Spec.Hardware = vmoprv1alpha5.VirtualMachineClassHardware{
+	dst.Spec.Hardware = vmoprv1alpha6.VirtualMachineClassHardware{
 		Cpus:   src.Spec.Hardware.Cpus,
 		Memory: src.Spec.Hardware.Memory,
 	}
@@ -49,6 +49,6 @@ func convert_hub_VirtualMachineClass_To_v1alpha5_VirtualMachineClass(_ context.C
 
 func init() {
 	converterBuilder.AddConversion(
-		conversion.NewAddConversionBuilder(convert_hub_VirtualMachineClass_To_v1alpha5_VirtualMachineClass, convert_v1alpha5_VirtualMachineClass_To_hub_VirtualMachineClass),
+		conversion.NewAddConversionBuilder(convert_hub_VirtualMachineClass_To_v1alpha6_VirtualMachineClass, convert_v1alpha6_VirtualMachineClass_To_hub_VirtualMachineClass),
 	)
 }

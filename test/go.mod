@@ -8,6 +8,11 @@ replace sigs.k8s.io/cluster-api/test => sigs.k8s.io/cluster-api/test v1.12.0-rc.
 
 replace sigs.k8s.io/cluster-api-provider-vsphere => ../
 
+replace (
+	github.com/vmware-tanzu/vm-operator/api => github.com/shutingm-kubernetes/vm-operator/api v0.0.0-20260312084753-fc14b025a6cd
+	github.com/vmware-tanzu/vm-operator/external/ncp => github.com/shutingm-kubernetes/vm-operator/external/ncp v0.0.0-20260312084753-fc14b025a6cd
+)
+
 require (
 	github.com/vmware-tanzu/net-operator-api v0.0.0-20250826165015-90a4bb21727b
 	// The version of vm-operator should be kept in sync with the manifests at: config/deployments/integration-tests

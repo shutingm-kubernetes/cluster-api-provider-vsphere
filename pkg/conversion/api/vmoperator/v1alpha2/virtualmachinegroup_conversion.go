@@ -64,33 +64,33 @@ func convert_v1alpha2_VirtualMachineGroup_To_hub_VirtualMachineGroup(_ context.C
 				if member.Placement.Datastores != nil {
 					m.Placement.Datastores = []vmoprvhub.VirtualMachineGroupPlacementDatastoreStatus{}
 					for _, datastore := range member.Placement.Datastores {
-						d := vmoprvhub.VirtualMachineGroupPlacementDatastoreStatus{
-							Name:                 datastore.Name,
-							ID:                   datastore.ID,
-							URL:                  datastore.URL,
-							SupportedDiskFormats: datastore.SupportedDiskFormats,
-						}
-						if datastore.DiskKey != nil {
-							d.DiskKey = ptr.To(*datastore.DiskKey)
-						}
-						m.Placement.Datastores = append(m.Placement.Datastores, d)
+					d := vmoprvhub.VirtualMachineGroupPlacementDatastoreStatus{
+						Name:                 datastore.Name,
+						ID:                   datastore.ID,
+						URL:                  datastore.URL,
+						SupportedDiskFormats: datastore.SupportedDiskFormats,
 					}
+					if datastore.DiskKey != nil {
+						d.DiskKey = ptr.To(*datastore.DiskKey)
+					}
+					m.Placement.Datastores = append(m.Placement.Datastores, d)
 				}
 			}
-			if member.PowerState != nil {
-				m.PowerState = ptr.To(vmoprvhub.VirtualMachinePowerState(*member.PowerState))
-			}
-			if member.Conditions != nil {
-				m.Conditions = []metav1.Condition{}
-				for _, condition := range member.Conditions {
-					m.Conditions = append(m.Conditions, condition)
-				}
-			}
-			dst.Status.Members = append(dst.Status.Members, m)
 		}
+		if member.PowerState != nil {
+			m.PowerState = ptr.To(vmoprvhub.VirtualMachinePowerState(*member.PowerState))
+		}
+		if member.Conditions != nil {
+			m.Conditions = []metav1.Condition{}
+			for _, condition := range member.Conditions {
+				m.Conditions = append(m.Conditions, condition)
+			}
+		}
+		dst.Status.Members = append(dst.Status.Members, m)
 	}
+}
 
-	return nil
+return nil
 }
 
 func convert_hub_VirtualMachineGroup_To_v1alpha2_VirtualMachineGroup(_ context.Context, src *vmoprvhub.VirtualMachineGroup, dst *vmoprv1alpha2.VirtualMachineGroup) error {
@@ -130,16 +130,16 @@ func convert_hub_VirtualMachineGroup_To_v1alpha2_VirtualMachineGroup(_ context.C
 				if member.Placement.Datastores != nil {
 					m.Placement.Datastores = []vmoprv1alpha2.VirtualMachineGroupPlacementDatastoreStatus{}
 					for _, datastore := range member.Placement.Datastores {
-						d := vmoprv1alpha2.VirtualMachineGroupPlacementDatastoreStatus{
-							Name:                 datastore.Name,
-							ID:                   datastore.ID,
-							URL:                  datastore.URL,
-							SupportedDiskFormats: datastore.SupportedDiskFormats,
-						}
-						if datastore.DiskKey != nil {
-							d.DiskKey = ptr.To(*datastore.DiskKey)
-						}
-						m.Placement.Datastores = append(m.Placement.Datastores, d)
+					d := vmoprv1alpha2.VirtualMachineGroupPlacementDatastoreStatus{
+						Name:                 datastore.Name,
+						ID:                   datastore.ID,
+						URL:                  datastore.URL,
+						SupportedDiskFormats: datastore.SupportedDiskFormats,
+					}
+					if datastore.DiskKey != nil {
+						d.DiskKey = ptr.To(*datastore.DiskKey)
+					}
+					m.Placement.Datastores = append(m.Placement.Datastores, d)
 					}
 				}
 			}

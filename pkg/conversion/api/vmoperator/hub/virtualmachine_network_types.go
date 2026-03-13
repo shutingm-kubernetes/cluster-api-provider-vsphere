@@ -188,6 +188,37 @@ type VirtualMachineNetworkInterfaceSpec struct {
 	// or true, if search domains is not provided, the global search domains
 	// will be used instead.
 	SearchDomains []string `json:"searchDomains,omitempty"`
+
+	// +optional
+
+	// VLANs is a list of VLAN sub-interfaces to be configured on this
+	// network interface.
+	VLANs []VirtualMachineNetworkVLANSpec `json:"vlans,omitempty"`
+}
+
+// VirtualMachineNetworkVLANSpec describes a VLAN sub-interface configuration.
+type VirtualMachineNetworkVLANSpec struct {
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:MinLength=1
+	// +kubebuilder:validation:MaxLength=15
+	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9][a-zA-Z0-9._-]*$"
+
+	// Name is the name of the VLAN sub-interface as it appears inside
+	// the guest operating system.
+	//
+	// The name must conform to Linux network interface naming rules:
+	// it must be between 1 and 15 characters long, start with an
+	// alphanumeric character, and contain only alphanumeric characters,
+	// hyphens, underscores, or dots.
+	Name string `json:"name"`
+
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Minimum=0
+	// +kubebuilder:validation:Maximum=4094
+
+	// ID is the VLAN ID used to tag traffic on this sub-interface,
+	// a number between 0 and 4094.
+	ID int64 `json:"id"`
 }
 
 // VirtualMachineNetworkSpec defines a VM's desired network configuration.

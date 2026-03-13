@@ -29,7 +29,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/spf13/pflag"
 	vmoprv1alpha2 "github.com/vmware-tanzu/vm-operator/api/v1alpha2"
-	vmoprv1alpha5 "github.com/vmware-tanzu/vm-operator/api/v1alpha5"
+	vmoprv1alpha6 "github.com/vmware-tanzu/vm-operator/api/v1alpha6"
 	spqv1 "github.com/vmware-tanzu/vm-operator/external/storage-policy-quota/api/v1alpha2"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
@@ -113,7 +113,7 @@ func init() {
 	utilruntime.Must(topologyv1.AddToScheme(scheme))
 	utilruntime.Must(vmoprvhub.AddToScheme(scheme))
 	utilruntime.Must(vmoprv1alpha2.AddToScheme(scheme))
-	utilruntime.Must(vmoprv1alpha5.AddToScheme(scheme))
+	utilruntime.Must(vmoprv1alpha6.AddToScheme(scheme))
 	utilruntime.Must(storagev1.AddToScheme(scheme))
 	utilruntime.Must(vmwarev1beta1.AddToScheme(scheme))
 	utilruntime.Must(apiextensionsv1.AddToScheme(scheme))
@@ -136,8 +136,8 @@ func InitFlags(fs *pflag.FlagSet) {
 	fs.StringVar(
 		&apiVersionVMOperator,
 		"vm-operator-api-version",
-		vmoprv1alpha5.GroupVersion.Version,
-		fmt.Sprintf("the API version to use when reading and writing VM Operator resources in supervisor mode. Valid values are: %s, %s", vmoprv1alpha2.GroupVersion.Version, vmoprv1alpha5.GroupVersion.Version),
+		vmoprv1alpha6.GroupVersion.Version,
+		fmt.Sprintf("the API version to use when reading and writing VM Operator resources in supervisor mode. Valid values are: %s, %s", vmoprv1alpha2.GroupVersion.Version, vmoprv1alpha6.GroupVersion.Version),
 	)
 
 	fs.BoolVar(
@@ -226,12 +226,8 @@ func main() {
 		os.Exit(1)
 	}
 
-	pflag.CommandLine.VisitAll(func(flag *pflag.Flag) {
-		klog.V(1).Infof("FLAG: --%s=%q", flag.Name, flag.Value)
-	})
-
-	if apiVersionVMOperator != vmoprv1alpha2.GroupVersion.Version && apiVersionVMOperator != vmoprv1alpha5.GroupVersion.Version {
-		fmt.Printf("Invalid argument: --vm-operator-api-version must be one of : %s, %s\n", vmoprv1alpha2.GroupVersion.Version, vmoprv1alpha5.GroupVersion.Version)
+	if apiVersionVMOperator != vmoprv1alpha2.GroupVersion.Version && apiVersionVMOperator != vmoprv1alpha6.GroupVersion.Version {
+		fmt.Printf("Invalid argument: --vm-operator-api-version must be one of : %s, %s\n", vmoprv1alpha2.GroupVersion.Version, vmoprv1alpha6.GroupVersion.Version)
 		os.Exit(1)
 	}
 

@@ -288,6 +288,20 @@ func setVMSecondaryInterfaces(machine *vmwarev1.VSphereMachine, vm *vmoprvhub.Vi
 	if len(machine.Spec.Network.Interfaces.Secondary) == 0 {
 		return
 	}
+
+	// Build a map of interface name -> VLANs for quick lookup.
+	vlansPerInterface := map[string][]vmoprvhub.VirtualMachineNetworkVLANSpec{}
+	for _, vlan := range machine.Spec.Network.Interfaces.VLANs {
+		var id int64
+		if vlan.ID != nil {
+			id = *vlan.ID
+		}
+		vlansPerInterface[vlan.Link] = append(vlansPerInterface[vlan.Link], vmoprvhub.VirtualMachineNetworkVLANSpec{
+			Name: vlan.Name,
+			ID:   id,
+		})
+	}
+
 	for _, secondaryInterface := range machine.Spec.Network.Interfaces.Secondary {
 		var mtu *int64
 		if secondaryInterface.MTU != 0 {
@@ -307,6 +321,9 @@ func setVMSecondaryInterfaces(machine *vmwarev1.VSphereMachine, vm *vmoprvhub.Vi
 			Gateway6: "None",
 		}
 		setRoutes(&vmInterface, secondaryInterface.Routes)
+		if vlans, ok := vlansPerInterface[secondaryInterface.Name]; ok {
+			vmInterface.VLANs = vlans
+		}
 		vm.Spec.Network.Interfaces = append(vm.Spec.Network.Interfaces, vmInterface)
 	}
 }

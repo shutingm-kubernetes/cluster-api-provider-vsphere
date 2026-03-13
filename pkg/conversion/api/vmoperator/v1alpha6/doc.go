@@ -14,5 +14,5 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// Package v1alpha5 implements conversion from vm operator v1alpha5 types.
-package v1alpha5
+// Package v1alpha6 implements conversion from vm operator v1alpha6 types.
+package v1alpha6

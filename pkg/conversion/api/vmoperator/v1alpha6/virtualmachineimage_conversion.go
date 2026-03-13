@@ -14,20 +14,20 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package v1alpha5
+package v1alpha6
 
 import (
 	"context"
 
-	vmoprv1alpha5 "github.com/vmware-tanzu/vm-operator/api/v1alpha5"
-	vmoprv1alpha5common "github.com/vmware-tanzu/vm-operator/api/v1alpha5/common"
+	vmoprv1alpha6 "github.com/vmware-tanzu/vm-operator/api/v1alpha6"
+	vmoprv1alpha6common "github.com/vmware-tanzu/vm-operator/api/v1alpha6/common"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	"sigs.k8s.io/cluster-api-provider-vsphere/pkg/conversion"
 	vmoprvhub "sigs.k8s.io/cluster-api-provider-vsphere/pkg/conversion/api/vmoperator/hub"
 )
 
-func convert_v1alpha5_VirtualMachineImage_To_hub_VirtualMachineImage(_ context.Context, src *vmoprv1alpha5.VirtualMachineImage, dst *vmoprvhub.VirtualMachineImage) error {
+func convert_v1alpha6_VirtualMachineImage_To_hub_VirtualMachineImage(_ context.Context, src *vmoprv1alpha6.VirtualMachineImage, dst *vmoprvhub.VirtualMachineImage) error {
 	dst.ObjectMeta = src.ObjectMeta
 
 	if src.Spec.ProviderRef != nil {
@@ -53,7 +53,6 @@ func convert_v1alpha5_VirtualMachineImage_To_hub_VirtualMachineImage(_ context.C
 	}
 	dst.Status.ProviderItemID = src.Status.ProviderItemID
 
-	// Convert VMwareSystemProperties
 	if src.Status.VMwareSystemProperties != nil {
 		dst.Status.VMwareSystemProperties = make([]vmoprvhub.KeyValuePair, len(src.Status.VMwareSystemProperties))
 		for i, prop := range src.Status.VMwareSystemProperties {
@@ -67,11 +66,11 @@ func convert_v1alpha5_VirtualMachineImage_To_hub_VirtualMachineImage(_ context.C
 	return nil
 }
 
-func convert_hub_VirtualMachineImage_To_v1alpha5_VirtualMachineImage(_ context.Context, src *vmoprvhub.VirtualMachineImage, dst *vmoprv1alpha5.VirtualMachineImage) error {
+func convert_hub_VirtualMachineImage_To_v1alpha6_VirtualMachineImage(_ context.Context, src *vmoprvhub.VirtualMachineImage, dst *vmoprv1alpha6.VirtualMachineImage) error {
 	dst.ObjectMeta = src.ObjectMeta
 
 	if src.Spec.ProviderRef != nil {
-		dst.Spec.ProviderRef = &vmoprv1alpha5common.LocalObjectRef{
+		dst.Spec.ProviderRef = &vmoprv1alpha6common.LocalObjectRef{
 			APIVersion: src.Spec.ProviderRef.APIVersion,
 			Kind:       src.Spec.ProviderRef.Kind,
 			Name:       src.Spec.ProviderRef.Name,
@@ -85,19 +84,18 @@ func convert_hub_VirtualMachineImage_To_v1alpha5_VirtualMachineImage(_ context.C
 		}
 	}
 	dst.Status.Name = src.Status.Name
-	dst.Status.OSInfo = vmoprv1alpha5.VirtualMachineImageOSInfo{
+	dst.Status.OSInfo = vmoprv1alpha6.VirtualMachineImageOSInfo{
 		Type: src.Status.OSInfo.Type,
 	}
-	dst.Status.ProductInfo = vmoprv1alpha5.VirtualMachineImageProductInfo{
+	dst.Status.ProductInfo = vmoprv1alpha6.VirtualMachineImageProductInfo{
 		FullVersion: src.Status.ProductInfo.FullVersion,
 	}
 	dst.Status.ProviderItemID = src.Status.ProviderItemID
 
-	// Convert VMwareSystemProperties
 	if src.Status.VMwareSystemProperties != nil {
-		dst.Status.VMwareSystemProperties = make([]vmoprv1alpha5common.KeyValuePair, len(src.Status.VMwareSystemProperties))
+		dst.Status.VMwareSystemProperties = make([]vmoprv1alpha6common.KeyValuePair, len(src.Status.VMwareSystemProperties))
 		for i, prop := range src.Status.VMwareSystemProperties {
-			dst.Status.VMwareSystemProperties[i] = vmoprv1alpha5common.KeyValuePair{
+			dst.Status.VMwareSystemProperties[i] = vmoprv1alpha6common.KeyValuePair{
 				Key:   prop.Key,
 				Value: prop.Value,
 			}
@@ -107,7 +105,7 @@ func convert_hub_VirtualMachineImage_To_v1alpha5_VirtualMachineImage(_ context.C
 	return nil
 }
 
-func convert_v1alpha5_ClusterVirtualMachineImage_To_hub_ClusterVirtualMachineImage(_ context.Context, src *vmoprv1alpha5.ClusterVirtualMachineImage, dst *vmoprvhub.ClusterVirtualMachineImage) error {
+func convert_v1alpha6_ClusterVirtualMachineImage_To_hub_ClusterVirtualMachineImage(_ context.Context, src *vmoprv1alpha6.ClusterVirtualMachineImage, dst *vmoprvhub.ClusterVirtualMachineImage) error {
 	dst.ObjectMeta = src.ObjectMeta
 
 	if src.Spec.ProviderRef != nil {
@@ -133,7 +131,6 @@ func convert_v1alpha5_ClusterVirtualMachineImage_To_hub_ClusterVirtualMachineIma
 	}
 	dst.Status.ProviderItemID = src.Status.ProviderItemID
 
-	// Convert VMwareSystemProperties
 	if src.Status.VMwareSystemProperties != nil {
 		dst.Status.VMwareSystemProperties = make([]vmoprvhub.KeyValuePair, len(src.Status.VMwareSystemProperties))
 		for i, prop := range src.Status.VMwareSystemProperties {
@@ -147,11 +144,11 @@ func convert_v1alpha5_ClusterVirtualMachineImage_To_hub_ClusterVirtualMachineIma
 	return nil
 }
 
-func convert_hub_ClusterVirtualMachineImage_To_v1alpha5_ClusterVirtualMachineImage(_ context.Context, src *vmoprvhub.ClusterVirtualMachineImage, dst *vmoprv1alpha5.ClusterVirtualMachineImage) error {
+func convert_hub_ClusterVirtualMachineImage_To_v1alpha6_ClusterVirtualMachineImage(_ context.Context, src *vmoprvhub.ClusterVirtualMachineImage, dst *vmoprv1alpha6.ClusterVirtualMachineImage) error {
 	dst.ObjectMeta = src.ObjectMeta
 
 	if src.Spec.ProviderRef != nil {
-		dst.Spec.ProviderRef = &vmoprv1alpha5common.LocalObjectRef{
+		dst.Spec.ProviderRef = &vmoprv1alpha6common.LocalObjectRef{
 			APIVersion: src.Spec.ProviderRef.APIVersion,
 			Kind:       src.Spec.ProviderRef.Kind,
 			Name:       src.Spec.ProviderRef.Name,
@@ -165,19 +162,18 @@ func convert_hub_ClusterVirtualMachineImage_To_v1alpha5_ClusterVirtualMachineIma
 		}
 	}
 	dst.Status.Name = src.Status.Name
-	dst.Status.OSInfo = vmoprv1alpha5.VirtualMachineImageOSInfo{
+	dst.Status.OSInfo = vmoprv1alpha6.VirtualMachineImageOSInfo{
 		Type: src.Status.OSInfo.Type,
 	}
-	dst.Status.ProductInfo = vmoprv1alpha5.VirtualMachineImageProductInfo{
+	dst.Status.ProductInfo = vmoprv1alpha6.VirtualMachineImageProductInfo{
 		FullVersion: src.Status.ProductInfo.FullVersion,
 	}
 	dst.Status.ProviderItemID = src.Status.ProviderItemID
 
-	// Convert VMwareSystemProperties
 	if src.Status.VMwareSystemProperties != nil {
-		dst.Status.VMwareSystemProperties = make([]vmoprv1alpha5common.KeyValuePair, len(src.Status.VMwareSystemProperties))
+		dst.Status.VMwareSystemProperties = make([]vmoprv1alpha6common.KeyValuePair, len(src.Status.VMwareSystemProperties))
 		for i, prop := range src.Status.VMwareSystemProperties {
-			dst.Status.VMwareSystemProperties[i] = vmoprv1alpha5common.KeyValuePair{
+			dst.Status.VMwareSystemProperties[i] = vmoprv1alpha6common.KeyValuePair{
 				Key:   prop.Key,
 				Value: prop.Value,
 			}
@@ -189,9 +185,9 @@ func convert_hub_ClusterVirtualMachineImage_To_v1alpha5_ClusterVirtualMachineIma
 
 func init() {
 	converterBuilder.AddConversion(
-		conversion.NewAddConversionBuilder(convert_hub_VirtualMachineImage_To_v1alpha5_VirtualMachineImage, convert_v1alpha5_VirtualMachineImage_To_hub_VirtualMachineImage),
+		conversion.NewAddConversionBuilder(convert_hub_VirtualMachineImage_To_v1alpha6_VirtualMachineImage, convert_v1alpha6_VirtualMachineImage_To_hub_VirtualMachineImage),
 	)
 	converterBuilder.AddConversion(
-		conversion.NewAddConversionBuilder(convert_hub_ClusterVirtualMachineImage_To_v1alpha5_ClusterVirtualMachineImage, convert_v1alpha5_ClusterVirtualMachineImage_To_hub_ClusterVirtualMachineImage),
+		conversion.NewAddConversionBuilder(convert_hub_ClusterVirtualMachineImage_To_v1alpha6_ClusterVirtualMachineImage, convert_v1alpha6_ClusterVirtualMachineImage_To_hub_ClusterVirtualMachineImage),
 	)
 }
