@@ -96,8 +96,8 @@ func convert_v1alpha6_VirtualMachine_To_hub_VirtualMachine(_ context.Context, sr
 						Value: ap.Value,
 					})
 				}
-				d.DHCP4 = iface.DHCP4
-				d.DHCP6 = iface.DHCP6
+				d.DHCP4 = ptr.Deref(iface.DHCP4, false)
+				d.DHCP6 = ptr.Deref(iface.DHCP6, false)
 				d.Gateway4 = iface.Gateway4
 				d.Gateway6 = iface.Gateway6
 				d.GuestDeviceName = iface.GuestDeviceName
@@ -133,8 +133,11 @@ func convert_v1alpha6_VirtualMachine_To_hub_VirtualMachine(_ context.Context, sr
 					d.VMXNet3 = &vmoprvhub.VirtualMachineNetworkInterfaceVMXNet3Spec{
 						UPTv2Enabled:      iface.VMXNet3.UPTv2Enabled,
 						RSSOffloadEnabled: iface.VMXNet3.RSSOffloadEnabled,
-						UDPRSSEnabled:     iface.VMXNet3.UDPRSSEnabled,
 						CoalescingParams:  iface.VMXNet3.CoalescingParams,
+					}
+					if iface.VMXNet3.UDPRSSEnabled != nil {
+						val := bool(*iface.VMXNet3.UDPRSSEnabled)
+						d.VMXNet3.UDPRSSEnabled = &val
 					}
 					if iface.VMXNet3.CtxPerDev != nil {
 						v := vmoprvhub.TxContextThreadingMode(*iface.VMXNet3.CtxPerDev)
@@ -380,8 +383,8 @@ func convert_hub_VirtualMachine_To_v1alpha6_VirtualMachine(_ context.Context, sr
 						Value: ap.Value,
 					})
 				}
-				d.DHCP4 = iface.DHCP4
-				d.DHCP6 = iface.DHCP6
+				d.DHCP4 = ptr.To(iface.DHCP4)
+				d.DHCP6 = ptr.To(iface.DHCP6)
 				d.Gateway4 = iface.Gateway4
 				d.Gateway6 = iface.Gateway6
 				d.GuestDeviceName = iface.GuestDeviceName
@@ -417,8 +420,11 @@ func convert_hub_VirtualMachine_To_v1alpha6_VirtualMachine(_ context.Context, sr
 					d.VMXNet3 = &vmoprv1alpha6.VirtualMachineNetworkInterfaceVMXNet3Spec{
 						UPTv2Enabled:      iface.VMXNet3.UPTv2Enabled,
 						RSSOffloadEnabled: iface.VMXNet3.RSSOffloadEnabled,
-						UDPRSSEnabled:     iface.VMXNet3.UDPRSSEnabled,
 						CoalescingParams:  iface.VMXNet3.CoalescingParams,
+					}
+					if iface.VMXNet3.UDPRSSEnabled != nil {
+						val := vmoprv1alpha6.UDPRSSMode(*iface.VMXNet3.UDPRSSEnabled)
+						d.VMXNet3.UDPRSSEnabled = &val
 					}
 					if iface.VMXNet3.CtxPerDev != nil {
 						v := vmoprv1alpha6.TxContextThreadingMode(*iface.VMXNet3.CtxPerDev)
