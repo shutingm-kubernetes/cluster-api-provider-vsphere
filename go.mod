@@ -3,9 +3,9 @@ module sigs.k8s.io/cluster-api-provider-vsphere
 go 1.26.0
 
 replace (
-	sigs.k8s.io/cluster-api => sigs.k8s.io/cluster-api v1.13.0-rc.0.0.20260618122843-d0ed2bc26ba0
+	sigs.k8s.io/cluster-api => sigs.k8s.io/cluster-api v1.14.0-alpha.0
 	sigs.k8s.io/cluster-api-provider-vsphere/api => ./api
-	sigs.k8s.io/cluster-api/api => sigs.k8s.io/cluster-api/api v0.0.0-20260618122843-d0ed2bc26ba0
+	sigs.k8s.io/cluster-api/api => sigs.k8s.io/cluster-api/api v1.14.0-alpha.0
 )
 
 require (
@@ -23,7 +23,7 @@ require (
 	github.com/go-logr/logr v1.4.3
 	github.com/go-task/slim-sprig/v3 v3.0.0
 	github.com/google/uuid v1.6.0
-	github.com/onsi/ginkgo/v2 v2.31.0
+	github.com/onsi/ginkgo/v2 v2.32.0
 	github.com/onsi/gomega v1.42.0
 	github.com/pkg/errors v0.9.1
 	github.com/spf13/cobra v1.10.2
